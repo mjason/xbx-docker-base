@@ -11,11 +11,12 @@ ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
 
 # The installer requires curl (and certificates) to download the release archive
-RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates
+RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates fonts-noto-cjk 
 
 RUN apt-get update -y && apt-get install -y chromium
 RUN echo 'export CHROMIUM_FLAGS="$CHROMIUM_FLAGS --no-sandbox"' >> /etc/chromium.d/default-flags
 
+RUN rm -rf /var/lib/apt/lists/*
 
 # Download the latest installer
 ADD https://astral.sh/uv/install.sh /uv-installer.sh
