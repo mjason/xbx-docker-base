@@ -11,7 +11,13 @@ ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
 
 # The installer requires curl (and certificates) to download the release archive
-RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates fonts-noto-cjk 
+RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates fontconfig
+
+# 只下载 Noto Sans SC Regular（约 10MB）
+RUN mkdir -p /usr/share/fonts/truetype/noto \
+    && wget -O /usr/share/fonts/truetype/noto/NotoSansSC-Regular.ttf \
+    https://github.com/googlefonts/noto-cjk/raw/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf \
+    && fc-cache -fv
 
 RUN apt-get update -y && apt-get install -y chromium
 RUN echo 'export CHROMIUM_FLAGS="$CHROMIUM_FLAGS --no-sandbox"' >> /etc/chromium.d/default-flags
